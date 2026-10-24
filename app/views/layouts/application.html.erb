@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || t(".title") %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-white">
+    <div class="min-h-screen">
+      <header class="h-20 bg-green-950 flex items-center justify-between px-6">
+        <%= link_to store_index_path(locale: I18n.locale), class: "block w-48" do %>
+          <%= image_tag "logo.svg",
+              alt: t(".title"),
+              class: "w-full" %>
+        <% end %>
+
+        <div data-controller="locale">
+          <%= form_with url: store_index_path(locale: I18n.locale),
+              class: "locale" do %>
+            <%= select_tag "set_locale",
+                options_for_select(LANGUAGES, I18n.locale.to_s),
+                class: "text-gray-900 bg-white border border-gray-300 rounded px-2 py-1",
+                onchange: "this.form.submit()" %>
+
+            <%= submit_tag "Submit",
+                data: { locale_target: "submit" },
+                class: "ml-2 rounded bg-white px-2 py-1 text-black" %>
+          <% end %>
+        </div>
+      </header>
+
+      <div class="flex min-h-screen">
+        <aside class="w-56 shrink-0 bg-green-900 text-gray-100">
+          <div class="text-gray-900">
+            <%= render partial: "layouts/cart", locals: { cart: @cart } %>
+          </div>
+
+          <nav>
+            <ul class="leading-8">
+              <li>
+                <%= link_to t(".home"),
+                    store_index_path(locale: I18n.locale),
+                    class: "block px-5 py-2 hover:bg-green-950 hover:text-white" %>
+              </li>
+              <li>
+                <a href="#" class="block px-5 py-2 hover:bg-green-950 hover:text-white"><%= t(".questions") %></a>
+              </li>
+              <li>
+                <a href="#" class="block px-5 py-2 hover:bg-green-950 hover:text-white"><%= t(".news") %></a>
+              </li>
+              <li>
+                <a href="#" class="block px-5 py-2 hover:bg-green-950 hover:text-white"><%= t(".contact") %></a>
+              </li>
+            </ul>
+
+            <hr class="my-2 border-green-700">
+
+            <ul class="leading-8">
+              <% if authenticated? %>
+                <li>
+                  <%= link_to t(".orders"),
+                      orders_path(locale: I18n.locale),
+                      class: "block px-5 py-2 hover:bg-green-950 hover:text-white" %>
+                </li>
+                <li>
+                  <%= link_to t(".products"), products_path,
+                      class: "block px-5 py-2 hover:bg-green-950 hover:text-white" %>
+                </li>
+                <li>
+                  <%= link_to t(".users"), users_path,
+                      class: "block px-5 py-2 hover:bg-green-950 hover:text-white" %>
+                </li>
+                <li class="px-5 py-2">
+                  <%= button_to t(".logout"), session_path,
+                      method: :delete,
+                      class: "hover:text-white" %>
+                </li>
+              <% else %>
+                <li>
+                  <%= link_to t(".login"),
+                      new_session_path,
+                      class: "block px-5 py-2 hover:bg-green-950 hover:text-white" %>
+                </li>
+              <% end %>
+            </ul>
+          </nav>
+        </aside>
+
+        <main class="flex-1 min-w-0 container mx-auto mt-4 px-5">
+          <%= yield %>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

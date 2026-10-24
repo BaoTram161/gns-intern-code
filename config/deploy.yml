@@ -1,0 +1,49 @@
+service: depot
+image: YOUR_DOCKERHUB_USERNAME/depot
+
+servers:
+  web:
+    - YOUR_SERVER_IP
+
+proxy:
+  ssl: true
+  host: YOUR_DOMAIN
+
+registry:
+  username: YOUR_DOCKERHUB_USERNAME
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+env:
+  secret:
+    - RAILS_MASTER_KEY
+    - ACCESS_KEY_ID
+    - SECRET_ACCESS_KEY
+    - ENDPOINT_URL_S3
+    - REGION
+    - BUCKET_NAME
+  clear:
+    SOLID_QUEUE_IN_PUMA: true
+
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+  dbc: app exec --interactive --reuse "bin/rails dbconsole --include-password"
+
+volumes:
+  - "depot_storage:/rails/storage"
+
+asset_path: /rails/public/assets
+
+builder:
+  arch: amd64
+  context: .
+  remote: ssh://root@YOUR_SERVER_IP
+  local: false
+
+logging:
+  driver: local
+  options:
+    max-size: 20m
+    max-file: 5

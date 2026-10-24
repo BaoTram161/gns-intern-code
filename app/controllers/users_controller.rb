@@ -1,0 +1,82 @@
+class UsersController < ApplicationController
+  rescue_from User::Error, with: :handle_user_error
+
+  before_action :set_user, only: %i[ show edit update destroy ]
+
+  # GET /users or /users.json
+  def index
+    @users = User.order(:name)
+  end
+
+  # GET /users/1 or /users/1.json
+  def show
+  end
+
+  # GET /users/new
+  def new
+    @user = User.new
+  end
+
+  # GET /users/1/edit
+  def edit
+  end
+
+  # POST /users or /users.json
+  def create
+    @user = User.new(user_params)
+
+    respond_to do |format|
+      if @user.save
+        format.html do
+          redirect_to users_url,
+            notice: "User #{@user.name} was successfully created."
+        end
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @user.errors, status: :unprocessable_content }
+      end
+    end
+  end
+
+  # PATCH/PUT /users/1 or /users/1.json
+  def update
+    respond_to do |format|
+      if @user.update(user_params)
+        format.html do
+          redirect_to users_url,
+            notice: "User #{@user.name} was successfully updated.",
+            status: :see_other
+        end
+        format.json { render :show, status: :ok, location: @user }
+      else
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @user.errors, status: :unprocessable_content }
+      end
+    end
+  end
+
+  # DELETE /users/1 or /users/1.json
+  def destroy
+    @user.destroy!
+
+    respond_to do |format|
+      format.html { redirect_to users_path, notice: "User was successfully destroyed.", status: :see_other }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+
+  def handle_user_error(exception)
+    redirect_to users_url, notice: exception.message
+  end
+
+  def set_user
+    @user = User.find(params.expect(:id))
+  end
+
+  def user_params
+    params.expect(user: [ :name, :email_address, :password, :password_confirmation ])
+  end
+end

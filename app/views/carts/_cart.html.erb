@@ -1,0 +1,41 @@
+<div id="<%= dom_id cart %>" class="w-full max-w-full min-w-0 overflow-hidden">
+  <h2 class="font-bold text-lg mb-3"><%= t(".title") %></h2>
+
+  <table class="w-full table-fixed text-sm">
+    <% cart.line_items.each do |line_item| %>
+      <% if line_item == @current_item %>
+        <tr id="<%= dom_id line_item %>" class="line-item-highlight">
+      <% else %>
+        <tr id="<%= dom_id line_item %>">
+      <% end %>
+        <td class="w-6 text-right align-top">
+          <%= line_item.quantity %>
+        </td>
+        <td class="w-4 text-center align-top">&times;</td>
+        <td class="px-1 align-top break-words">
+          <%= line_item.product.title %>
+        </td>
+        <td class="w-20 text-right font-bold align-top break-words">
+          <%= number_to_currency(line_item.total_price) %>
+        </td>
+      </tr>
+    <% end %>
+
+    <tfoot>
+      <tr>
+        <th class="text-right pr-2 pt-2" colspan="3"><%= t(".total") %></th>
+        <td class="text-right pt-2 font-bold border-t-2 border-black break-words">
+          <%= number_to_currency(cart.total_price) %>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="flex gap-2 mt-3">
+    <%= button_to t(".empty"), cart, method: :delete,
+        class: "rounded-lg py-1 px-2 text-white bg-green-600" %>
+
+    <%= button_to t(".checkout"), new_order_path(locale: I18n.locale), method: :get,
+        class: "rounded-lg py-1 px-2 text-black bg-green-200" %>
+  </div>
+</div>

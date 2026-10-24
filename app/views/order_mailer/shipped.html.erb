@@ -1,0 +1,16 @@
+<h1>Your Order Has Shipped!</h1>
+
+<p>Dear <%= @order.name %>,</p>
+
+<p>
+  Your order from The Pragmatic Store has shipped!
+</p>
+
+<p>You ordered the following items:</p>
+
+<ul>
+  <%= render partial: "order_mailer/line_item",
+             collection: @order.line_items %>
+</ul>
+
+<p>Thank you for shopping with The Pragmatic Store.</p>

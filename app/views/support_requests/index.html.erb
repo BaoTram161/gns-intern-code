@@ -1,0 +1,73 @@
+<% @support_requests.each do |support_request| %>
+  <section class="support-request">
+    <h1 class="support-request__title">
+      On <%= support_request.created_at.to_formatted_s(:long) %>
+      <code><%= support_request.email %></code> writes:
+    </h1>
+
+    <blockquote class="support-request__message">
+      <h2><%= support_request.subject %></h2>
+      <%= support_request.body %>
+    </blockquote>
+
+    <% if support_request.order %>
+      <h3 class="support-request__section-title">Recent Order</h3>
+
+      <p>Name</p>
+      <p class="support-request__value">
+        <%= support_request.order.name %>
+      </p>
+
+      <p>Email</p>
+      <p class="support-request__value">
+        <%= support_request.order.email %>
+      </p>
+
+      <p>Address</p>
+      <p class="support-request__value">
+        <%= support_request.order.address %>
+      </p>
+
+      <p>PayType</p>
+      <p class="support-request__value">
+        <%= support_request.order.pay_type %>
+      </p>
+
+      <p>Line Items</p>
+      <ul class="support-request__line-items">
+        <% support_request.order.line_items.each do |line_item| %>
+          <li>
+            <%= line_item.product.title %>
+            (<%= line_item.product.price %>).
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <h3 class="support-request__section-title">
+        No associated order
+      </h3>
+    <% end %>
+
+    <% if support_request.response.blank? %>
+      <%= form_with(
+            model: support_request,
+            local: true,
+            class: "depot_form support-request__form"
+          ) do |form| %>
+        <%= form.label :response, "Write Response" %>
+        <%= form.rich_textarea :response,
+            id: "support_request_response_#{support_request.id}" %>
+        <%= form.submit "Send Response" %>
+      <% end %>
+    <% else %>
+      <h4 class="support-request__response-heading">
+        Our response:
+      </h4>
+      <blockquote class="support-request__response">
+        <%= support_request.response %>
+      </blockquote>
+    <% end %>
+
+    <hr>
+  </section>
+<% end %>
