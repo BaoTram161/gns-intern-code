@@ -14,8 +14,11 @@ Rails.application.configure do
     "cache-control" => "public, max-age=#{1.year.to_i}"
   }
 
-  # Store uploaded files in S3 object storage
-  config.active_storage.service = :hetzner
+  # Store uploaded files locally or in S3-compatible object storage.
+  # Docker Compose can set ACTIVE_STORAGE_SERVICE=local.
+  # Production deployment defaults to Hetzner.
+  config.active_storage.service =
+    ENV.fetch("ACTIVE_STORAGE_SERVICE", "hetzner").to_sym
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # config.assume_ssl = true

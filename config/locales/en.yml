@@ -39,6 +39,8 @@ en:
         "Check": "Check"
         "Credit card": "Credit Card"
         "Purchase order": "Purchase Order"
+    create:
+      thanks: "Thank you for your order."
 
   number:
     currency:

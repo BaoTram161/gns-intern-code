@@ -9,12 +9,14 @@
     <%= t(".title_html") %>
   </h1>
 
+  <current-time></current-time>
+
   <%= turbo_stream_from 'products' %>
 
   <ul>
-    <% cache @products do %>
+    <% cache [I18n.locale, @products] do %>
       <% @products.each do |product| %>
-        <% cache product do %>
+        <% cache [I18n.locale, product] do %>
           <%= render partial: 'product', object: product %>
         <% end %>
       <% end %>

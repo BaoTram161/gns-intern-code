@@ -5,3 +5,4 @@ import "channels"
 
 import "trix"
 import "@rails/actiontext"
+import "elements/current-time"
