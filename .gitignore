@@ -39,3 +39,4 @@
 
 # Kamal secrets
 /.kamal/secrets
+/backups/

@@ -74,7 +74,7 @@ class OrdersTest < ApplicationSystemTestCase
     assert_equal 1, order.line_items.size
 
     mail = ActionMailer::Base.deliveries.last
-    assert_equal ["dave@example.com"], mail.to
+    assert_equal [ "dave@example.com" ], mail.to
     assert_equal "Pragmatic Store Order Confirmation", mail.subject
   end
 end

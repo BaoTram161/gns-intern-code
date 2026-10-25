@@ -31,7 +31,7 @@ class LineItemsController < ApplicationController
 
           render turbo_stream: turbo_stream.replace(
             :cart,
-            partial: 'layouts/cart',
+            partial: "layouts/cart",
             locals: { cart: @cart }
           )
         end
@@ -83,6 +83,6 @@ class LineItemsController < ApplicationController
   end
 
   def line_item_params
-    params.expect(line_item: [:product_id])
+    params.expect(line_item: [ :product_id ])
   end
 end

@@ -92,7 +92,7 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    params.expect(order: [:name, :address, :email, :pay_type])
+    params.expect(order: [ :name, :address, :email, :pay_type ])
   end
 
   def pay_type_params
