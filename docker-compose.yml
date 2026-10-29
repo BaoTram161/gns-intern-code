@@ -3,6 +3,9 @@
     build: .
     environment:
       ACTIVE_STORAGE_SERVICE: local
+      GMAIL_USERNAME: ${GMAIL_USERNAME}
+      GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD}
+      SOLID_QUEUE_IN_PUMA: "true"
     volumes:
       - ./log:/rails/log
       - ./storage:/rails/storage

@@ -32,7 +32,9 @@ class Order < ApplicationRecord
 
     when "Credit card"
       payment_method = :credit_card
-      month, year = pay_type_params["expiration_date"].split(//)
+
+      month, year = pay_type_params["expiration_date"].to_s.split("/", 2)
+
       payment_details[:cc_num] = pay_type_params["credit_card_number"]
       payment_details[:expiration_month] = month
       payment_details[:expiration_year] = year

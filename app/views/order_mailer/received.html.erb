@@ -1,6 +1,6 @@
 <h1>Order Confirmation</h1>
 
-<p>Dear <%= @order.name %>,</p>
+<p>Dear <%= @order.name.to_s.strip %>,</p>
 
 <p>
   Thank you for your recent order from The Pragmatic Store.

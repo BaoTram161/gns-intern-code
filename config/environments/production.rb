@@ -39,7 +39,26 @@ Rails.application.configure do
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
 
-  # config.action_mailer.raise_delivery_errors = false
+  # Send email through Gmail SMTP.
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+
+  config.action_mailer.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    domain: "gmail.com",
+    user_name: ENV["GMAIL_USERNAME"],
+    password: ENV["GMAIL_APP_PASSWORD"],
+    authentication: :plain,
+    enable_starttls_auto: true,
+    open_timeout: 10,
+    read_timeout: 10
+  }
+
+  config.action_mailer.default_options = {
+    from: ENV["GMAIL_USERNAME"]
+  }
 
   config.action_mailer.default_url_options = { host: "example.com" }
 

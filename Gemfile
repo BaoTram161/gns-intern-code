@@ -65,6 +65,9 @@ group :development, :test do
 
   # Omakase Ruby styling
   gem "rubocop-rails-omakase", require: false
+
+  # Use RSpec for testing
+  gem "rspec-rails"
 end
 
 group :development do
