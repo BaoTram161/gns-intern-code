@@ -48,7 +48,7 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 # Use Active Storage variants
-gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 2.2"
 
 # Use S3-compatible object storage (Hetzner Object Storage)
 gem "aws-sdk-s3", require: false
